@@ -11,7 +11,7 @@ class Allergies {
     
     list () {
         return this.code
-            .map((c, i) => parseInt(c) ? ALLERGENS[i] : false)
+            .map((c, i) => Number(c) ? ALLERGENS[i] : false)
             .filter(a => a);
     }
     
