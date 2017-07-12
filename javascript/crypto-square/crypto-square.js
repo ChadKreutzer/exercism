@@ -27,11 +27,11 @@ class Crypto {
     }
 
     ciphertext() {
-        let segments = this.plaintextSegments(),
-            cipher = [];
-            console.log(segments);
+        let segments = this.plaintextSegments();
         
-        return segments.reduce((a, s) => a.forEach((l, i) => l+= s[i] || " "), [...a]);
+        return segments.map(b => [...b])
+            .reduce((acc, curr) => acc.map((l, i) => l + curr[i]))
+            .join("");
         
     }
 }
