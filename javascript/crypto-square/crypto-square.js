@@ -30,7 +30,7 @@ class Crypto {
         let segments = this.plaintextSegments();
         
         return segments.map(b => [...b])
-            .reduce((acc, curr) => acc.map((l, i) => l + (curr[i] ? curr[i] : "")))
+            .reduce((acc, curr) => acc.map((l, i) => l + (curr[i] || "")))
             .join("");
         
     }
