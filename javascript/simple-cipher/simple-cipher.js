@@ -1,25 +1,56 @@
-const ALPHA = { a:0,  b:1,  c:2,  d:3,  e:4,  f:5, g:6, h:7, i:8, j:9,
-                k:10, l:11, m:12, n:13, o:14, p:15, q:16, r:17, s:18, t:19, u:20, v:21, w:22, x:23, y:24, z:25 }
-
 class Cipher {
     
     constructor () {
-        this.key = arguments[0] || "aaaaaaaaaa";
+        this.key = getKey(arguments[0]);
     }
     
     encode (plainText) {
-        
+        return [...plainText]
+            .map((c, i) => String
+                .fromCharCode(coder(offset(this.key, c, i, "+"), "encode")))
+            .join("");
     }
     
     decode (codedText) {
-        
+        return [...codedText]
+            .map((c, i) => String
+                .fromCharCode(coder(offset(this.key, c, i, "-"), "decode")))
+            .join("");
     }
 }
 
-const genKey = () => {
-    let key = new Array(26);
-    key.forEach((_, i) => key[i] = Math.random() * 26);
-    return key;
-    
-}
-module.exports = Cipher();
+const badFlag = new Error("Invalid flag");
+const badKey = new Error("Bad key");
+
+const offset = (key, char, ind, op) => {
+    switch (op) {
+        case "+": return char.charCodeAt(0) + translate(key)[ind];
+        case "-": return char.charCodeAt(0) - translate(key)[ind];
+        default: throw badFlag;
+    }
+};
+
+const translate = (key) => [...key].map(c => c.charCodeAt(0) - 97);
+
+const coder = (code, flag) => {
+    switch (flag) {
+        case "encode": return (code <= 122) ? code : code - 26;
+        case "decode": return (code >= 97) ? code : code + 26;
+        default: throw badFlag;
+    }
+};
+
+const getKey = (key) => {
+    switch (true) {
+        case key === undefined: return genKey();
+        case /^[a-z]+$/.test(key): return key;
+        default: throw badKey;
+    }
+};
+
+const genKey = () => Array(100)
+    .fill("-")
+    .map(c => c = String.fromCharCode(Math.floor(Math.random() * 26) + 97))
+    .join("");
+
+module.exports = Cipher;
