@@ -7,7 +7,7 @@ class Luhn {
 }
 
 const test = (str) => {
-    if (/[\d\s]|^\d?$/.test(str)) return false;
+    if (str.length < 2 || /[^\d\s]/.test(str)) return false;
     return [...(str.replace(/\s/g, ""))]
         .map((d, i) => {
             d = Number(d);
