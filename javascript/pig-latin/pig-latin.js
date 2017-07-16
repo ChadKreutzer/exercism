@@ -1,6 +1,6 @@
 const translate = (string) => {
     const V = /^[aeiouy]/;
-    const CorQ = /(\w?qu|[^aeiouy\s]+)(\w+)/;
+    const CorQ = /(\w?qu|[^aeiouy]+)(\w+)/;
     
     return string
         .split(" ")
